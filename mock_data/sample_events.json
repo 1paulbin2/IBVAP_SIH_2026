@@ -1,0 +1,11 @@
+[
+  {
+    "event_id": "EVT_10092",
+    "camera_id": "CAM_BORDER_01",
+    "timestamp": "2026-09-24T21:00:05Z",
+    "event_type": "virtual_fence",
+    "object_track": "TRK_88492",
+    "zone_rule": "ZONE_NORTH_PERIMETER",
+    "evidence_reference": "/evidence/events/evt_10092.mp4"
+  }
+]

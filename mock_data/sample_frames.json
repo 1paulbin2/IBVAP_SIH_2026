@@ -1,0 +1,8 @@
+[
+  {
+    "camera_id": "CAM_BORDER_01",
+    "timestamp": "2026-09-24T21:00:00Z",
+    "frame_reference": "/evidence/frames/cam_01_frame_001.jpg",
+    "sequence_number": 1001
+  }
+]

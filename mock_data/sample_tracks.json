@@ -1,0 +1,10 @@
+[
+  {
+    "camera_id": "CAM_BORDER_01",
+    "track_id": "TRK_88492",
+    "class": "human",
+    "bbox": [122.0, 202.0, 45.0, 110.0],
+    "timestamp": "2026-09-24T21:00:02Z",
+    "tracking_metadata": { "velocity_x": 0.5, "velocity_y": 0.1 }
+  }
+]

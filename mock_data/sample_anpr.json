@@ -1,0 +1,9 @@
+[
+  {
+    "track_id": "TRK_99120",
+    "vehicle_reference": "/evidence/vehicles/veh_001.jpg",
+    "plate_text": "JK02AB1234",
+    "confidence": 0.98,
+    "evidence_reference": "/evidence/plates/plate_001.jpg"
+  }
+]
