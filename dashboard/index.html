@@ -224,6 +224,41 @@
     </header>
 
     <main>
+        <section class="dashboard-card" id="backendSummaryCard">
+            <div class="card-header">
+                <h2 class="card-title">Backend System Status (REST)</h2>
+                <span id="backendStatusBadge" class="counter-badge">Checking...</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                <div style="background-color: var(--bg-card); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--accent-blue);">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.25rem;">Backend Health</div>
+                    <div id="backendHealthVal" style="font-size: 1.1rem; font-weight: 600;">Checking...</div>
+                    <div id="backendHealthModule" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Endpoint: /health</div>
+                </div>
+                <div style="background-color: var(--bg-card); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.25rem;">Persisted Alerts</div>
+                    <div id="persistedAlertsVal" style="font-size: 1.1rem; font-weight: 600; color: var(--text-secondary);">Endpoint Not Implemented</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">GET /api/v1/alerts</div>
+                </div>
+                <div style="background-color: var(--bg-card); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.25rem;">Cameras Configured</div>
+                    <div id="camerasCountVal" style="font-size: 1.1rem; font-weight: 600; color: var(--text-secondary);">Endpoint Not Implemented</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">GET /api/v1/cameras</div>
+                </div>
+                <div style="background-color: var(--bg-card); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.25rem;">Analytics Summary</div>
+                    <div id="analyticsSummaryVal" style="font-size: 1.1rem; font-weight: 600; color: var(--text-secondary);">Endpoint Not Implemented</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">GET /api/v1/analytics/summary</div>
+                </div>
+                <div style="background-color: var(--bg-card); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.25rem;">ANPR Logs</div>
+                    <div id="anprLogsVal" style="font-size: 1.1rem; font-weight: 600; color: var(--text-secondary);">Endpoint Not Implemented</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">GET /api/v1/anpr/logs</div>
+                </div>
+            </div>
+            <div id="restStatusMessage" style="font-size: 0.8rem; color: var(--text-secondary); padding-top: 0.25rem;"></div>
+        </section>
+
         <section class="dashboard-card">
             <div class="card-header">
                 <h2 class="card-title">Live Realtime Feed (Events & Alerts)</h2>

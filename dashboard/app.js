@@ -1,4 +1,5 @@
 import { DashboardWebSocketClient } from "./websocket.js";
+import { fetchHealth, fetchEndpoint } from "./api.js";
 
 let totalItems = 0;
 
@@ -142,6 +143,88 @@ export function updateConnectionUI(statusBadge, statusText, isConnected, label =
     }
 }
 
+export async function loadRestData() {
+    const healthVal = document.getElementById("backendHealthVal");
+    const healthModule = document.getElementById("backendHealthModule");
+    const statusBadge = document.getElementById("backendStatusBadge");
+    const restMsg = document.getElementById("restStatusMessage");
+
+    const alertsVal = document.getElementById("persistedAlertsVal");
+    const camerasVal = document.getElementById("camerasCountVal");
+    const analyticsVal = document.getElementById("analyticsSummaryVal");
+    const anprVal = document.getElementById("anprLogsVal");
+
+    try {
+        // 1. Fetch available backend /health
+        const healthRes = await fetchHealth();
+        if (healthRes.ok && healthRes.data) {
+            if (healthVal) {
+                healthVal.textContent = String(healthRes.data.status || "healthy").toUpperCase();
+                healthVal.style.color = "var(--accent-green)";
+            }
+            if (healthModule && healthRes.data.module) {
+                healthModule.textContent = `Module: ${healthRes.data.module}`;
+            }
+            if (statusBadge) {
+                statusBadge.textContent = "Online";
+                statusBadge.style.color = "var(--accent-green)";
+            }
+        } else {
+            if (healthVal) {
+                healthVal.textContent = "Offline / Unreachable";
+                healthVal.style.color = "var(--accent-red)";
+            }
+            if (statusBadge) {
+                statusBadge.textContent = "Offline";
+                statusBadge.style.color = "var(--accent-red)";
+            }
+            if (restMsg) {
+                restMsg.textContent = "Backend REST service not reachable";
+            }
+        }
+
+        // 2. Query potential REST endpoints safely without blocking
+        // Alerts
+        const alertsRes = await fetchEndpoint("/api/v1/alerts");
+        if (alertsRes.ok && alertsRes.data && alertsVal) {
+            const count = Array.isArray(alertsRes.data) ? alertsRes.data.length : (alertsRes.data.count ?? "-");
+            alertsVal.textContent = `${count} Alert(s)`;
+            alertsVal.style.color = "var(--text-primary)";
+        }
+
+        // Cameras
+        const camerasRes = await fetchEndpoint("/api/v1/cameras");
+        if (camerasRes.ok && camerasRes.data && camerasVal) {
+            const count = Array.isArray(camerasRes.data) ? camerasRes.data.length : (camerasRes.data.count ?? "-");
+            camerasVal.textContent = `${count} Camera(s)`;
+            camerasVal.style.color = "var(--text-primary)";
+        }
+
+        // Analytics
+        const analyticsRes = await fetchEndpoint("/api/v1/analytics/summary");
+        if (analyticsRes.ok && analyticsRes.data && analyticsVal) {
+            analyticsVal.textContent = "Available";
+            analyticsVal.style.color = "var(--text-primary)";
+        }
+
+        // ANPR Logs
+        const anprRes = await fetchEndpoint("/api/v1/anpr/logs");
+        if (anprRes.ok && anprRes.data && anprVal) {
+            const count = Array.isArray(anprRes.data) ? anprRes.data.length : (anprRes.data.count ?? "-");
+            anprVal.textContent = `${count} Log(s)`;
+            anprVal.style.color = "var(--text-primary)";
+        }
+    } catch (err) {
+        if (statusBadge) {
+            statusBadge.textContent = "Error";
+            statusBadge.style.color = "var(--accent-red)";
+        }
+        if (restMsg) {
+            restMsg.textContent = "Could not complete REST status check";
+        }
+    }
+}
+
 export function initDashboard() {
     const statusBadge = document.getElementById("connectionStatus");
     const statusText = document.getElementById("statusText");
@@ -149,6 +232,10 @@ export function initDashboard() {
     const emptyPlaceholder = document.getElementById("emptyFeedMessage");
     const counterElement = document.getElementById("itemCount");
 
+    // Load REST data asynchronously (non-blocking)
+    loadRestData();
+
+    // Initialize realtime WebSocket feed
     const client = new DashboardWebSocketClient({
         path: "/api/v1/ws/events",
         onOpen: () => {
