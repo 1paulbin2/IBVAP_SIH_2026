@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from backend.app.api.v1.endpoints.ingestion import router as ingestion_router
+from backend.app.api.v1.endpoints.websocket import router as websocket_router
 from backend.app.core.redis import check_redis_connection, close_redis
 
 logger = logging.getLogger(__name__)
@@ -33,6 +34,7 @@ app = FastAPI(
 )
 
 app.include_router(ingestion_router, prefix="/api/v1")
+app.include_router(websocket_router, prefix="/api/v1")
 
 @app.get("/health")
 async def health_check():
