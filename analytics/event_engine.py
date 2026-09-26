@@ -20,3 +20,26 @@ def create_event(
         "zone": zone,
         "severity": severity,
     }
+def evaluate_track(
+    inside_zone,
+    night_time,
+    dwell_seconds,
+    dwell_threshold,
+):
+    """
+    Evaluate a tracked object using explicit surveillance rules.
+
+    Returns True when the object is inside the configured zone,
+    it is night-time, and the dwell threshold has been reached.
+    """
+
+    if not inside_zone:
+        return False
+
+    if not night_time:
+        return False
+
+    if dwell_seconds < dwell_threshold:
+        return False
+
+    return True
