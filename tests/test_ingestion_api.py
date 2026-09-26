@@ -165,3 +165,59 @@ def test_ingest_detection_validation_error():
     }
     response = client.post("/api/v1/ingest/detection", json=invalid_sample)
     assert response.status_code == 422
+
+
+@patch("backend.app.api.v1.endpoints.ingestion.publish_event", new_callable=AsyncMock)
+@patch("backend.app.api.v1.endpoints.ingestion.AlertService")
+def test_ingest_alert_publishes_to_redis(mock_service_cls, mock_publish):
+    mock_service = AsyncMock()
+    mock_service_cls.return_value = mock_service
+    mock_alt = MagicMock()
+    mock_alt.id = 42
+    mock_alt.event_id = "EVT_10092"
+    mock_alt.priority = "CRITICAL"
+    mock_alt.status = "UNREAD"
+    mock_alt.message = "Perimeter breach detected"
+    mock_alt.reference = "/ref/evt.mp4"
+    mock_service.create_alert_from_event.return_value = mock_alt
+
+    sample = MockFeedService.get_alerts()[0]
+    response = client.post("/api/v1/ingest/alert", json=sample)
+    assert response.status_code == 201
+    assert response.json()["status"] == "success"
+
+    mock_publish.assert_awaited_once_with({
+        "type": "alert.created",
+        "alert_id": 42,
+        "event_id": "EVT_10092",
+        "priority": "CRITICAL",
+        "status": "UNREAD",
+        "message": "Perimeter breach detected",
+    })
+
+
+@patch("backend.app.api.v1.endpoints.ingestion.publish_event", new_callable=AsyncMock)
+@patch("backend.app.api.v1.endpoints.ingestion.AlertService")
+def test_ingest_alert_redis_failure_does_not_fail_request(mock_service_cls, mock_publish):
+    mock_service = AsyncMock()
+    mock_service_cls.return_value = mock_service
+    mock_alt = MagicMock()
+    mock_alt.id = 42
+    mock_alt.event_id = "EVT_10092"
+    mock_alt.priority = "CRITICAL"
+    mock_alt.status = "UNREAD"
+    mock_alt.message = "Perimeter breach detected"
+    mock_alt.reference = "/ref/evt.mp4"
+    mock_service.create_alert_from_event.return_value = mock_alt
+
+    # Redis publishing raises an exception
+    mock_publish.side_effect = Exception("Redis connection refused")
+
+    sample = MockFeedService.get_alerts()[0]
+    response = client.post("/api/v1/ingest/alert", json=sample)
+
+    # API request still succeeds because PostgreSQL committed and Redis failure is non-fatal
+    assert response.status_code == 201
+    assert response.json()["status"] == "success"
+    assert response.json()["data"]["id"] == 42
+    mock_publish.assert_awaited_once()

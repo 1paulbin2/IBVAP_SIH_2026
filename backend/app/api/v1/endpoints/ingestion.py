@@ -2,6 +2,8 @@ from typing import Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import DBAPIError, IntegrityError
+from backend.app.core.redis_pubsub import publish_event
+import logging
 
 from backend.app.core.database import get_db
 from backend.app.schemas.contracts import (
@@ -23,6 +25,7 @@ from backend.app.services import (
     ServiceValidationError
 )
 from backend.app.services.helpers import parse_iso_datetime
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/ingest", tags=["Ingestion"])
 
@@ -61,13 +64,12 @@ async def ingest_detection(
             "data": {
                 "id": detection.id,
                 "camera_id": detection.camera_id,
-                "timestamp": payload.timestamp,
                 "class": detection.class_name,
                 "confidence": detection.confidence,
                 "bbox": detection.bbox,
-                "model_version": detection.model_version
-            }
+            "model_version": detection.model_version
         }
+    }
     except EntityNotFoundError as e:
         await db.rollback()
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -197,6 +199,16 @@ async def ingest_event(
             evidence_reference=payload.evidence_reference
         )
         await db.commit()
+
+        try:
+            await publish_event({
+                "type": "event.created",
+                "event_id": event.event_id,
+                "camera_id": event.camera_id,
+                "event_type": event.event_type,
+                "timestamp": event.timestamp.isoformat(),})
+        except Exception:
+            logger.exception("Failed to publish event to Redis")
         return {
             "status": "success",
             "message": "Event ingested",
@@ -245,6 +257,19 @@ async def ingest_alert(
             reference=payload.reference
         )
         await db.commit()
+
+        try:
+            await publish_event({
+                "type": "alert.created",
+                "alert_id": alert.id,
+                "event_id": alert.event_id,
+                "priority": alert.priority,
+                "status": alert.status,
+                "message": alert.message,
+            })
+        except Exception:
+            logger.exception("Failed to publish alert to Redis")
+
         return {
             "status": "success",
             "message": "Alert ingested",
