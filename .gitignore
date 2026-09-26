@@ -1,0 +1,5 @@
+camera_config.json
+.venv/
+__pycache__/
+.idea/
+videos/

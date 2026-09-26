@@ -1,0 +1,9 @@
+{
+  "cameras": [
+    {
+      "camera_id": "CAM_001",
+      "source_type": "rtsp",
+      "source": "rtsp://USERNAME:PASSWORD@CAMERA_IP:554/STREAM_PATH"
+    }
+  ]
+}
