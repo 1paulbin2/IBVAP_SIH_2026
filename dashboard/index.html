@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBVAP Realtime Surveillance Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-orange: #f97316;
+            --accent-yellow: #eab308;
+            --border-color: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--accent-blue);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .status-badge.connected {
+            background-color: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: currentColor;
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .dashboard-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .counter-badge {
+            background-color: var(--bg-card);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .feed-item {
+            background-color: var(--bg-card);
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 4px;
+            padding: 0.85rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feed-item.alert-item {
+            border-left-color: var(--accent-red);
+        }
+
+        .feed-item.priority-CRITICAL {
+            border-left-color: #dc2626;
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        .feed-item.priority-HIGH {
+            border-left-color: var(--accent-orange);
+            background-color: rgba(249, 115, 22, 0.1);
+        }
+
+        .feed-item.priority-MEDIUM {
+            border-left-color: var(--accent-yellow);
+        }
+
+        .feed-item.priority-LOW {
+            border-left-color: var(--accent-blue);
+        }
+
+        .item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-type {
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .item-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .item-priority {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+            margin-left: 0.5rem;
+        }
+
+        .item-message {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .item-details {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+
+        .empty-placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2.5rem 1rem;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand-title">IBVAP Realtime Operations</div>
+        <div id="connectionStatus" class="status-badge" aria-live="polite">
+            <span class="status-dot"></span>
+            <span id="statusText">Connecting...</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-card">
+            <div class="card-header">
+                <h2 class="card-title">Live Realtime Feed (Events & Alerts)</h2>
+                <span id="itemCount" class="counter-badge">0 items</span>
+            </div>
+            <div id="feedList" class="feed-container">
+                <div id="emptyFeedMessage" class="empty-placeholder">
+                    Waiting for realtime events from WebSocket (/api/v1/ws/events)...
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
