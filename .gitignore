@@ -1,0 +1,17 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.env
+
+# Ignore downloaded model weights
+models/*.pt
+models/*.weights
+yolov8n.pt
+
+# Ignore sample data (add small test cases manually if needed)
+data/sample_images/*
+!data/sample_images/.gitkeep
+data/sample_videos/*
+!data/sample_videos/.gitkeep
