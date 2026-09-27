@@ -212,6 +212,61 @@
             font-style: italic;
             font-size: 0.95rem;
         }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: var(--bg-card);
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.4);
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .data-table tr:hover td {
+            background-color: rgba(51, 65, 85, 0.5);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-class {
+            background-color: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .badge-confidence {
+            background-color: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+        }
     </style>
 </head>
 <body>
@@ -251,12 +306,46 @@
                     <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">GET /api/v1/analytics/summary</div>
                 </div>
                 <div style="background-color: var(--bg-card); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--border-color);">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.25rem;">Persisted Detections</div>
+                    <div id="persistedDetectionsVal" style="font-size: 1.1rem; font-weight: 600; color: var(--text-secondary);">Checking...</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">GET /api/v1/ingest/detections</div>
+                </div>
+                <div style="background-color: var(--bg-card); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--border-color);">
                     <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.25rem;">ANPR Logs</div>
                     <div id="anprLogsVal" style="font-size: 1.1rem; font-weight: 600; color: var(--text-secondary);">Endpoint Not Implemented</div>
                     <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">GET /api/v1/anpr/logs</div>
                 </div>
             </div>
             <div id="restStatusMessage" style="font-size: 0.8rem; color: var(--text-secondary); padding-top: 0.25rem;"></div>
+        </section>
+
+        <section class="dashboard-card" id="detectionsCard">
+            <div class="card-header">
+                <h2 class="card-title">Persisted Detections Feed</h2>
+                <span id="detectionsCountBadge" class="counter-badge">0 detections</span>
+            </div>
+            <div class="table-responsive">
+                <table class="data-table" id="detectionsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Time</th>
+                            <th>Camera</th>
+                            <th>Class</th>
+                            <th>Confidence</th>
+                            <th>Bounding Box</th>
+                            <th>Model</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detectionsTableBody">
+                        <tr>
+                            <td colspan="7" class="empty-placeholder" id="detectionsEmptyMessage">
+                                Loading persisted detections (GET /api/v1/ingest/detections)...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section class="dashboard-card">

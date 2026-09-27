@@ -25,6 +25,15 @@ export async function fetchHealth() {
         return { ok: false, error: err.message || "Network error" };
     }
 }
+export async function fetchDetections(limit = 50, cameraId = null) {
+    const params = new URLSearchParams({ limit: String(limit) });
+
+    if (cameraId) {
+        params.set("camera_id", cameraId);
+    }
+
+    return fetchEndpoint(`/api/v1/ingest/detections?${params.toString()}`);
+}
 
 /**
  * Generic safe fetch helper for optional/future endpoints

@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import DBAPIError, IntegrityError
@@ -295,3 +295,31 @@ async def ingest_alert(
     except Exception as e:
         await db.rollback()
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal error processing alert.")
+@router.get("/detections")
+async def get_recent_detections(
+    limit: int = 50,
+    camera_id: Optional[str] = None,
+    db: AsyncSession = Depends(get_db),
+) -> Dict[str, Any]:
+    """Return recent persisted detections for the dashboard."""
+    service = DetectionService(db)
+    detections = await service.get_recent_detections(
+        limit=limit,
+        camera_id=camera_id,
+    )
+
+    return {
+        "status": "success",
+        "data": [
+            {
+                "id": detection.id,
+                "camera_id": detection.camera_id,
+                "timestamp": detection.timestamp.isoformat(),
+                "class": detection.class_name,
+                "confidence": detection.confidence,
+                "bbox": detection.bbox,
+                "model_version": detection.model_version,
+            }
+            for detection in detections
+        ],
+    }

@@ -13,7 +13,7 @@ def test_alembic_ini_file_exists():
 def test_alembic_config_and_script_location():
     ini_path = BASE_DIR / "alembic.ini"
     config = Config(str(ini_path))
-    assert config.get_main_option("script_location") == "IBVAP_SIH_2026/database/alembic"
+    assert config.get_main_option("script_location") == "database/alembic"
 
 def test_alembic_target_metadata_coverage():
     table_names = set(Base.metadata.tables.keys())

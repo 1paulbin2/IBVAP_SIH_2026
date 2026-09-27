@@ -1,5 +1,5 @@
 import { DashboardWebSocketClient } from "./websocket.js";
-import { fetchHealth, fetchEndpoint } from "./api.js";
+import { fetchHealth, fetchEndpoint, fetchDetections } from "./api.js";
 
 let totalItems = 0;
 
@@ -11,6 +11,118 @@ export function formatTimestamp(ts) {
     } catch {
         return String(ts);
     }
+}
+
+export function renderDetections(detections, tableBody, countBadge, summaryVal) {
+    if (!Array.isArray(detections)) {
+        if (summaryVal) {
+            summaryVal.textContent = "Unavailable";
+            summaryVal.style.color = "var(--text-secondary)";
+        }
+        if (countBadge) {
+            countBadge.textContent = "0 detections";
+        }
+        if (tableBody) {
+            while (tableBody.firstChild) {
+                tableBody.removeChild(tableBody.firstChild);
+            }
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.colSpan = 7;
+            td.className = "empty-placeholder";
+            td.textContent = "Unable to fetch detections";
+            tr.appendChild(td);
+            tableBody.appendChild(tr);
+        }
+        return;
+    }
+
+    const count = detections.length;
+    if (summaryVal) {
+        summaryVal.textContent = `${count} Detection(s)`;
+        summaryVal.style.color = count > 0 ? "var(--accent-blue)" : "var(--text-primary)";
+    }
+    if (countBadge) {
+        countBadge.textContent = `${count} detection${count === 1 ? "" : "s"}`;
+    }
+
+    if (!tableBody) return;
+
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+
+    if (count === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 7;
+        td.className = "empty-placeholder";
+        td.textContent = "No persisted detections found in database.";
+        tr.appendChild(td);
+        tableBody.appendChild(tr);
+        return;
+    }
+
+    detections.forEach((det) => {
+        const tr = document.createElement("tr");
+
+        // 1. ID
+        const tdId = document.createElement("td");
+        tdId.style.fontWeight = "600";
+        tdId.textContent = det.id != null ? `#${det.id}` : "-";
+        tr.appendChild(tdId);
+
+        // 2. Time
+        const tdTime = document.createElement("td");
+        tdTime.style.color = "var(--text-secondary)";
+        tdTime.textContent = formatTimestamp(det.timestamp);
+        tr.appendChild(tdTime);
+
+        // 3. Camera
+        const tdCam = document.createElement("td");
+        tdCam.textContent = det.camera_id ? String(det.camera_id) : "-";
+        tr.appendChild(tdCam);
+
+        // 4. Class
+        const tdClass = document.createElement("td");
+        const badgeClass = document.createElement("span");
+        badgeClass.className = "badge badge-class";
+        badgeClass.textContent = det.class ? String(det.class) : "unknown";
+        tdClass.appendChild(badgeClass);
+        tr.appendChild(tdClass);
+
+        // 5. Confidence
+        const tdConf = document.createElement("td");
+        const badgeConf = document.createElement("span");
+        badgeConf.className = "badge badge-confidence";
+        if (typeof det.confidence === "number") {
+            badgeConf.textContent = `${(det.confidence * 100).toFixed(1)}%`;
+        } else {
+            badgeConf.textContent = "-";
+        }
+        tdConf.appendChild(badgeConf);
+        tr.appendChild(tdConf);
+
+        // 6. Bounding Box
+        const tdBbox = document.createElement("td");
+        tdBbox.style.fontFamily = "monospace";
+        tdBbox.style.fontSize = "0.8rem";
+        tdBbox.style.color = "var(--text-secondary)";
+        if (Array.isArray(det.bbox)) {
+            tdBbox.textContent = `[${det.bbox.join(", ")}]`;
+        } else {
+            tdBbox.textContent = "-";
+        }
+        tr.appendChild(tdBbox);
+
+        // 7. Model
+        const tdModel = document.createElement("td");
+        tdModel.style.color = "var(--text-secondary)";
+        tdModel.textContent = det.model_version ? String(det.model_version) : "-";
+        tr.appendChild(tdModel);
+
+        tableBody.appendChild(tr);
+    });
 }
 
 export function createFeedItemElement(payload) {
@@ -205,6 +317,20 @@ export async function loadRestData() {
         if (analyticsRes.ok && analyticsRes.data && analyticsVal) {
             analyticsVal.textContent = "Available";
             analyticsVal.style.color = "var(--text-primary)";
+        }
+
+        // Detections
+        const detSummaryVal = document.getElementById("persistedDetectionsVal");
+        const detCountBadge = document.getElementById("detectionsCountBadge");
+        const detTableBody = document.getElementById("detectionsTableBody");
+        const detectionsRes = await fetchDetections(50);
+        if (detectionsRes.ok && detectionsRes.data) {
+            const list = Array.isArray(detectionsRes.data)
+                ? detectionsRes.data
+                : (Array.isArray(detectionsRes.data.data) ? detectionsRes.data.data : []);
+            renderDetections(list, detTableBody, detCountBadge, detSummaryVal);
+        } else {
+            renderDetections(null, detTableBody, detCountBadge, detSummaryVal);
         }
 
         // ANPR Logs

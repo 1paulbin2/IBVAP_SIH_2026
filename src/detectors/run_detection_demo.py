@@ -2,11 +2,13 @@ import urllib.request
 import os
 import cv2
 import time
+import requests
 from src.detectors.yolo_detector import YOLOObjectDetector
 from src.core.config import DetectionConfig
 
 def run_demo():
     print("Initializing detector...")
+    api_url = "http://127.0.0.1:8000/api/v1/ingest/detection"
     config = DetectionConfig()
     detector = YOLOObjectDetector(config=config)
     
@@ -35,6 +37,23 @@ def run_demo():
     fps = 1.0 / inference_time if inference_time > 0 else 0
     
     print(f"Detected {len(detections)} objects.")
+    for det in detections:
+        payload = {
+            "camera_id": "demo_cam_01",
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "class": det.class_name,
+            "confidence": det.confidence,
+            "bbox": [
+                det.bbox.x_min,
+                det.bbox.y_min,
+                det.bbox.x_max,
+                det.bbox.y_max
+            ],
+            "model_version": "yolov8n"
+        }
+
+        response = requests.post(api_url, json=payload, timeout=5)
+        print(f"Backend response: {response.status_code} - {det.class_name}")
     print(f"Inference Time: {inference_time:.4f} seconds ({fps:.2f} FPS) on {config.device}")
     
     # Draw detections
