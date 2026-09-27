@@ -1,0 +1,10 @@
+[
+  {
+    "event_id": "EVT_10092",
+    "priority": "HIGH",
+    "timestamp": "2026-09-24T21:00:06Z",
+    "status": "UNREAD",
+    "message": "Virtual fence breached at ZONE_NORTH_PERIMETER by track TRK_88492",
+    "reference": "/evidence/events/evt_10092.mp4"
+  }
+]

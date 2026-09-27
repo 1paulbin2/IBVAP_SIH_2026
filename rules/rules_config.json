@@ -1,0 +1,5 @@
+{
+  "dwell_threshold_seconds": 60,
+  "night_start": "18:00",
+  "night_end": "06:00"
+}

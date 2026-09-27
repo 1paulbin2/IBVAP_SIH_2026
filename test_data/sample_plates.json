@@ -1,0 +1,99 @@
+{
+  "test_set_version": "1.0",
+  "description": "Defined benchmark test set for Indian license plate validation and ANPR per MoRTH and BH standards",
+  "sample_plates": [
+    {
+      "id": "plate_valid_morth_01",
+      "raw_ocr_text": "DL01AB1234",
+      "expected_text": "DL01AB1234",
+      "expected_valid": true,
+      "expected_standard": "standard_private",
+      "expected_status": "valid",
+      "state_code": "DL",
+      "district_code": "01",
+      "series": "AB",
+      "registration_number": "1234",
+      "description": "Clean standard Delhi private vehicle plate"
+    },
+    {
+      "id": "plate_valid_morth_02",
+      "raw_ocr_text": "MH12DE1433",
+      "expected_text": "MH12DE1433",
+      "expected_valid": true,
+      "expected_standard": "standard_private",
+      "expected_status": "valid",
+      "state_code": "MH",
+      "district_code": "12",
+      "series": "DE",
+      "registration_number": "1433",
+      "description": "Clean Maharashtra Pune RTO vehicle plate"
+    },
+    {
+      "id": "plate_valid_bharat_01",
+      "raw_ocr_text": "22BH1234AA",
+      "expected_text": "22BH1234AA",
+      "expected_valid": true,
+      "expected_standard": "bharat_series",
+      "expected_status": "valid",
+      "state_code": "BH",
+      "district_code": "22",
+      "series": "AA",
+      "registration_number": "1234",
+      "description": "Valid 2022 Bharat Series (BH) plate"
+    },
+    {
+      "id": "plate_disambiguation_01",
+      "raw_ocr_text": "0L01AB1234",
+      "expected_text": "DL01AB1234",
+      "expected_valid": true,
+      "expected_standard": "standard_private",
+      "expected_status": "valid",
+      "description": "First char digit '0' disambiguated to letter 'D'/'O' for Delhi"
+    },
+    {
+      "id": "plate_disambiguation_02",
+      "raw_ocr_text": "KA05MB999O",
+      "expected_text": "KA05MB9990",
+      "expected_valid": true,
+      "expected_standard": "standard_private",
+      "expected_status": "valid",
+      "description": "Last char letter 'O' disambiguated to digit '0'"
+    },
+    {
+      "id": "plate_invalid_state",
+      "raw_ocr_text": "ZZ99XX9999",
+      "expected_text": "ZZ99XX9999",
+      "expected_valid": false,
+      "expected_standard": "standard_private",
+      "expected_status": "invalid_syntax",
+      "description": "Invalid state code 'ZZ' not in 36 official Indian states/UTs"
+    },
+    {
+      "id": "plate_invalid_short",
+      "raw_ocr_text": "DL1234",
+      "expected_text": "DL1234",
+      "expected_valid": false,
+      "expected_standard": "unknown",
+      "expected_status": "invalid_syntax",
+      "description": "Too short (length 6), fails MoRTH structure"
+    },
+    {
+      "id": "plate_unreadable_noise",
+      "raw_ocr_text": "...",
+      "expected_text": null,
+      "expected_valid": false,
+      "expected_standard": "unknown",
+      "expected_status": "unreadable",
+      "description": "Noise and punctuation with no alphanumeric content"
+    },
+    {
+      "id": "plate_blurry_rejected",
+      "raw_ocr_text": "HR26DQ5555",
+      "expected_text": "HR26DQ5555",
+      "is_blurry": true,
+      "expected_valid": true,
+      "expected_status": "valid",
+      "description": "Valid syntax but flagged with limitation due to motion blur"
+    }
+  ]
+}

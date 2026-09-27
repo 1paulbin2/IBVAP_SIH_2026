@@ -1,0 +1,52 @@
+﻿# Camera / local configuration
+camera_config.json
+
+# Python environments
+.venv/
+venv/
+ENV/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment variables
+.env
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# Local videos / captures
+videos/
+captures/
+*.mp4
+*.avi
+*.mkv
+*.mov
+
+# Evidence storage
+evidence_store/
+
+# Downloaded model weights
+models/*.pt
+models/*.weights
+yolov8n.pt
+
+# Sample data
+data/sample_images/*
+!data/sample_images/.gitkeep
+data/sample_videos/*
+!data/sample_videos/.gitkeep
+
+# Test data
+test_data/*.jpg
+test_data/*.png
+!test_data/sample_plates.json
+!test_data/mock_detections.json
