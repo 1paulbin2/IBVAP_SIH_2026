@@ -1,0 +1,9 @@
+# Person 3: Tracking + ANPR dependencies
+numpy>=1.26.0,<2.8.0
+opencv-python-headless>=4.8.0
+pydantic>=2.0.0
+scipy>=1.12.0
+pillow>=10.0.0
+pytesseract>=0.3.10
+pytest>=8.0.0
+python-dateutil>=2.8.2

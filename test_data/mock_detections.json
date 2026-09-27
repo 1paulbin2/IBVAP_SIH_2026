@@ -1,0 +1,394 @@
+{
+  "linear_motion": {
+    "description": "Two vehicles moving steadily across 8 frames",
+    "frames": [
+      {
+        "frame_seq": 1,
+        "timestamp": "2026-09-27T10:00:01.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f1",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              120.0,
+              205.0,
+              240.0,
+              305.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f1",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              385.0,
+              160.0,
+              565.0,
+              330.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 2,
+        "timestamp": "2026-09-27T10:00:02.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f2",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              140.0,
+              210.0,
+              260.0,
+              310.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f2",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              370.0,
+              170.0,
+              550.0,
+              340.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 3,
+        "timestamp": "2026-09-27T10:00:03.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f3",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              160.0,
+              215.0,
+              280.0,
+              315.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f3",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              355.0,
+              180.0,
+              535.0,
+              350.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 4,
+        "timestamp": "2026-09-27T10:00:04.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f4",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              180.0,
+              220.0,
+              300.0,
+              320.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f4",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              340.0,
+              190.0,
+              520.0,
+              360.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 5,
+        "timestamp": "2026-09-27T10:00:05.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f5",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              200.0,
+              225.0,
+              320.0,
+              325.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f5",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              325.0,
+              200.0,
+              505.0,
+              370.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 6,
+        "timestamp": "2026-09-27T10:00:06.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f6",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              220.0,
+              230.0,
+              340.0,
+              330.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f6",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              310.0,
+              210.0,
+              490.0,
+              380.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 7,
+        "timestamp": "2026-09-27T10:00:07.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f7",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              240.0,
+              235.0,
+              360.0,
+              335.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f7",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              295.0,
+              220.0,
+              475.0,
+              390.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 8,
+        "timestamp": "2026-09-27T10:00:08.000Z",
+        "detections": [
+          {
+            "detection_id": "det_c1_f8",
+            "class_name": "car",
+            "confidence": 0.92,
+            "bbox": [
+              260.0,
+              240.0,
+              380.0,
+              340.0
+            ],
+            "metadata": {
+              "mock_plate_text": "DL01AB1234"
+            }
+          },
+          {
+            "detection_id": "det_t1_f8",
+            "class_name": "truck",
+            "confidence": 0.88,
+            "bbox": [
+              280.0,
+              230.0,
+              460.0,
+              400.0
+            ],
+            "metadata": {
+              "mock_plate_text": "MH12DE1433"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "missed_detections_occlusion": {
+    "description": "Vehicle visible frames 1-3, occluded/missed in frames 4-5, reappears frames 6-8",
+    "frames": [
+      {
+        "frame_seq": 1,
+        "timestamp": "2026-09-27T10:05:01.000Z",
+        "detections": [
+          {
+            "detection_id": "det_occ_f1",
+            "class_name": "car",
+            "confidence": 0.95,
+            "bbox": [
+              150.0,
+              200.0,
+              270.0,
+              300.0
+            ],
+            "metadata": {
+              "mock_plate_text": "KA05MB9990"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 2,
+        "timestamp": "2026-09-27T10:05:02.000Z",
+        "detections": [
+          {
+            "detection_id": "det_occ_f2",
+            "class_name": "car",
+            "confidence": 0.94,
+            "bbox": [
+              170.0,
+              205.0,
+              290.0,
+              305.0
+            ],
+            "metadata": {
+              "mock_plate_text": "KA05MB9990"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 3,
+        "timestamp": "2026-09-27T10:05:03.000Z",
+        "detections": [
+          {
+            "detection_id": "det_occ_f3",
+            "class_name": "car",
+            "confidence": 0.93,
+            "bbox": [
+              190.0,
+              210.0,
+              310.0,
+              310.0
+            ],
+            "metadata": {
+              "mock_plate_text": "KA05MB9990"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 4,
+        "timestamp": "2026-09-27T10:05:04.000Z",
+        "detections": []
+      },
+      {
+        "frame_seq": 5,
+        "timestamp": "2026-09-27T10:05:05.000Z",
+        "detections": []
+      },
+      {
+        "frame_seq": 6,
+        "timestamp": "2026-09-27T10:05:06.000Z",
+        "detections": [
+          {
+            "detection_id": "det_occ_f6",
+            "class_name": "car",
+            "confidence": 0.89,
+            "bbox": [
+              250.0,
+              225.0,
+              370.0,
+              325.0
+            ],
+            "metadata": {
+              "mock_plate_text": "KA05MB9990"
+            }
+          }
+        ]
+      },
+      {
+        "frame_seq": 7,
+        "timestamp": "2026-09-27T10:05:07.000Z",
+        "detections": [
+          {
+            "detection_id": "det_occ_f7",
+            "class_name": "car",
+            "confidence": 0.91,
+            "bbox": [
+              270.0,
+              230.0,
+              390.0,
+              330.0
+            ],
+            "metadata": {
+              "mock_plate_text": "KA05MB9990"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

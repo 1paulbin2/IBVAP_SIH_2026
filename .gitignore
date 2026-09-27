@@ -1,0 +1,31 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.env
+.venv/
+venv/
+ENV/
+
+# Large media & datasets (protect personal data & repository size)
+*.mp4
+*.avi
+*.mkv
+*.mov
+captures/
+evidence_store/
+test_data/*.jpg
+test_data/*.png
+!test_data/sample_plates.json
+!test_data/mock_detections.json
+
+# IDEs
+.idea/
+.vscode/
+*.swp
