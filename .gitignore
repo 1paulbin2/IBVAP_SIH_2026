@@ -8,8 +8,8 @@ ENV/
 
 # Python caches
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*.class
 *.so
 .pytest_cache/
 .coverage
@@ -25,11 +25,11 @@ htmlcov/
 
 # Local videos / captures
 videos/
+captures/
 *.mp4
 *.avi
 *.mkv
 *.mov
-captures/
 
 # Evidence storage
 evidence_store/
@@ -44,3 +44,9 @@ data/sample_images/*
 !data/sample_images/.gitkeep
 data/sample_videos/*
 !data/sample_videos/.gitkeep
+
+# Test data
+test_data/*.jpg
+test_data/*.png
+!test_data/sample_plates.json
+!test_data/mock_detections.json
