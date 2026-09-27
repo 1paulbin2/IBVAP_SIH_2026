@@ -1,3 +1,6 @@
+import cv2
+import numpy as np
+
 from video_source import VideoSource
 
 
@@ -15,8 +18,21 @@ def test_rtsp_source_detection():
     assert video.get_source_type() == "rtsp"
 
 
-def test_file_connection():
-    video = VideoSource("../videos/test_videos.mp4")
+def test_file_connection(tmp_path):
+    video_path = tmp_path / "test_video.mp4"
+
+    writer = cv2.VideoWriter(
+        str(video_path),
+        cv2.VideoWriter_fourcc(*"mp4v"),
+        10,
+        (64, 64),
+    )
+
+    frame = np.zeros((64, 64, 3), dtype=np.uint8)
+    writer.write(frame)
+    writer.release()
+
+    video = VideoSource(str(video_path))
 
     assert video.connect()
     assert video.is_opened()

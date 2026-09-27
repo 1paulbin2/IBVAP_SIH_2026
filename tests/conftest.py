@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
+import json
 
 import cv2
 import numpy as np
@@ -14,7 +16,7 @@ from test_data.generate_test_assets import create_synthetic_plate_image
 
 # Backend async-test configuration
 def pytest_configure(config):
-    config.addinivalue_line("markers", "asyncio: mark a test as async")
+    config.addinivalue_line("markers", "asyncio: mark an async test")
 
 
 # Person 3 tracking/ANPR fixtures
@@ -68,3 +70,29 @@ def low_contrast_plate_image() -> np.ndarray:
         height=60,
         low_contrast=True,
     )
+
+
+@pytest.fixture
+def sample_plates_test_set():
+    path = (
+        Path(__file__).resolve().parents[1]
+        / "test_data"
+        / "sample_plates.json"
+    )
+
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    return data["sample_plates"]
+
+
+@pytest.fixture
+def mock_scenarios():
+    path = (
+        Path(__file__).resolve().parents[1]
+        / "test_data"
+        / "mock_detections.json"
+    )
+
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
