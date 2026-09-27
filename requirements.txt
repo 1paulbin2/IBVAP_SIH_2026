@@ -1,4 +1,4 @@
-﻿# AI Detection
+# AI Detection
 opencv-python
 torch
 torchvision
@@ -11,6 +11,18 @@ pillow>=10.0.0
 pytesseract>=0.3.10
 python-dateutil>=2.8.2
 
-# Shared validation/testing
+# Backend
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
 pydantic>=2.6.0
+pydantic-settings>=2.2.0
+sqlalchemy>=2.0.28
+asyncpg>=0.29.0
+redis[hiredis]>=5.0.0
+alembic>=1.13.0
+
+# Testing and validation
 pytest>=8.0.0
+pytest-asyncio>=0.23.0
+httpx>=0.27.0
+jsonschema>=4.21.0

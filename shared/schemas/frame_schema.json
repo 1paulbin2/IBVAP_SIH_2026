@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FrameContract",
+  "type": "object",
+  "properties": {
+    "camera_id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "frame_reference": { "type": "string" },
+    "sequence_number": { "type": "integer" }
+  },
+  "required": ["camera_id", "timestamp", "frame_reference"]
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "camera_id": "CAM_BORDER_01",
+    "timestamp": "2026-09-24T21:00:01Z",
+    "class": "human",
+    "confidence": 0.94,
+    "bbox": [120.5, 200.0, 45.0, 110.0],
+    "model_version": "v1.2.0"
+  }
+]

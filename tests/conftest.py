@@ -1,23 +1,31 @@
-"""
-Shared Pytest fixtures for Person 3 test suite.
-"""
+﻿"""Shared test configuration and fixtures."""
 
 from __future__ import annotations
+
 from datetime import datetime, timezone
-import json
-import os
-from typing import Dict, List
+
 import cv2
 import numpy as np
 import pytest
 
-from schemas.detection import BoundingBox, DetectionRecord, FrameDetections
+from schemas.detection import BoundingBox, DetectionRecord
 from test_data.generate_test_assets import create_synthetic_plate_image
 
 
+# Backend async-test configuration
+def pytest_configure(config):
+    config.addinivalue_line("markers", "asyncio: mark a test as async")
+
+
+# Person 3 tracking/ANPR fixtures
 @pytest.fixture
 def sample_bbox() -> BoundingBox:
-    return BoundingBox(x1=100.0, y1=150.0, x2=250.0, y2=300.0)
+    return BoundingBox(
+        x1=100.0,
+        y1=150.0,
+        x2=250.0,
+        y2=300.0,
+    )
 
 
 @pytest.fixture
@@ -35,32 +43,28 @@ def sample_detection(sample_bbox) -> DetectionRecord:
 
 @pytest.fixture
 def synthetic_plate_image() -> np.ndarray:
-    return create_synthetic_plate_image("DL01AB1234", width=240, height=60)
+    return create_synthetic_plate_image(
+        "DL01AB1234",
+        width=240,
+        height=60,
+    )
 
 
 @pytest.fixture
 def blurry_plate_image() -> np.ndarray:
-    return create_synthetic_plate_image("DL01AB1234", width=240, height=60, blur=True)
+    return create_synthetic_plate_image(
+        "DL01AB1234",
+        width=240,
+        height=60,
+        blur=True,
+    )
 
 
 @pytest.fixture
 def low_contrast_plate_image() -> np.ndarray:
-    return create_synthetic_plate_image("DL01AB1234", width=240, height=60, low_contrast=True)
-
-
-@pytest.fixture
-def sample_plates_test_set() -> List[Dict]:
-    curr_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(curr_dir, "..", "test_data", "sample_plates.json")
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return data["sample_plates"]
-
-
-@pytest.fixture
-def mock_scenarios() -> Dict:
-    curr_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(curr_dir, "..", "test_data", "mock_detections.json")
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return data
+    return create_synthetic_plate_image(
+        "DL01AB1234",
+        width=240,
+        height=60,
+        low_contrast=True,
+    )
